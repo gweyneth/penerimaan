@@ -68,10 +68,10 @@
                     <span class="info-label">Email (Username)</span>
                     <span class="info-value">: {{ $akun->email }}</span>
                 </div>
-                <div class="info-row">
+                {{-- <div class="info-row">
                     <span class="info-label">Password</span>
                     <span class="info-value">: <strong>{{ $akun->plain_password ?? 'Tidak Tersimpan' }}</strong></span>
-                </div>
+                </div> --}}
                 <div class="info-row">
                     <span class="info-label">Kode Akses</span>
                     <span class="info-value">: <strong>{{ $akun->penerima?->kodeAkses?->kode ?? 'Belum Dibuat' }}</strong></span>
