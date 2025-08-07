@@ -5,10 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Admin Dashboard' }}</title>
     <style>
-        body { font-family: system-ui, sans-serif; background-color: #f4f7f6; margin: 0; }
-        .admin-layout { display: flex; }
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; }
-        .content-wrapper { padding: 1.5rem; background-color: #f4f7f6; }
+        body {
+            font-family: system-ui, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            /* Mencegah scroll di level body */
+            overflow: hidden;
+        }
+
+        .admin-layout {
+            display: flex;
+            /* Mengatur tinggi layout agar full screen */
+            height: 100vh;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            /* Membuat hanya area ini yang bisa di-scroll */
+            overflow-y: auto;
+        }
+
+        .content-wrapper {
+            padding: 1.5rem;
+            background-color: #f4f7f6;
+            flex-grow: 1; /* Memastikan konten mengisi sisa ruang */
+        }
         
         /* Overlay for mobile sidebar */
         .sidebar-overlay {
