@@ -13,13 +13,47 @@
         .btn-success { background: #28a745; }
         .btn-primary { background: #007bff; }
         .btn-danger { background: #dc3545; }
-        .btn-info { background: #17a2b8; } /* New button color for "Lihat" */
+        .btn-info { background: #17a2b8; }
         .status-badge { color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; }
         .status-aktif { background: #28a745; }
         .status-nonaktif { background: #dc3545; }
         .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
         .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .action-buttons { display: flex; gap: 5px; }
+
+        /* Filter & Search Styles */
+        .controls-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .filter-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .form-control {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .pagination-info {
+            color: #555;
+            font-size: 0.875rem;
+        }
 
         /* Modal Styles */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
@@ -33,9 +67,28 @@
     </style>
 
     <div class="table-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <h2>Daftar Penerima</h2>
             <a href="{{ route('admin.penerima.create') }}" class="btn btn-success">+ Tambah Penerima</a>
+        </div>
+
+        <!-- FORM FILTER DAN SEARCH BARU -->
+        <div class="controls-container">
+            <form action="{{ route('admin.penerima.index') }}" method="GET" class="filter-form">
+                <label for="per_page">Tampilkan:</label>
+                <select name="per_page" id="per_page" class="form-control" onchange="this.form.submit()">
+                    <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                    <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
+                    <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                    <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                </select>
+                <span>entri</span>
+            </form>
+            <form action="{{ route('admin.penerima.index') }}" method="GET" class="filter-form">
+                <input type="hidden" name="per_page" value="{{ $perPage }}">
+                <input type="text" name="search" class="form-control" placeholder="Cari nama atau kelas..." value="{{ $search }}">
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </form>
         </div>
 
         @if (session('success'))
@@ -93,15 +146,21 @@
                 @empty
                     <tr>
                         <td colspan="6" style="text-align: center;">
-                            Belum ada data penerima.
+                            Tidak ada data yang cocok dengan pencarian "{{ $search }}".
                         </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
 
-        <div style="margin-top: 1.5rem;">
-            {{ $penerimas->links() }}
+        <!-- PAGINATION BARU -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Menampilkan {{ $penerimas->firstItem() }} sampai {{ $penerimas->lastItem() }} dari {{ $penerimas->total() }} hasil
+            </div>
+            <div>
+                {{ $penerimas->links() }}
+            </div>
         </div>
     </div>
 
@@ -123,7 +182,6 @@
         const modalBody = document.getElementById('modal-body');
         const closeButton = document.querySelector('.close-button');
 
-        // Function to open the modal
         function openModal(data) {
             modalBody.innerHTML = `
                 <div class="detail-item"><div class="detail-label">Nama Lengkap</div><div class="detail-value">${data.nama}</div></div>
@@ -137,12 +195,10 @@
             modal.style.display = 'block';
         }
 
-        // Function to close the modal
         function closeModal() {
             modal.style.display = 'none';
         }
 
-        // Add event listeners to all "Lihat" buttons
         document.querySelectorAll('.view-detail-btn').forEach(button => {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -159,7 +215,6 @@
             });
         });
 
-        // Event listeners for closing the modal
         closeButton.addEventListener('click', closeModal);
         window.addEventListener('click', function (event) {
             if (event.target == modal) {

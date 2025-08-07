@@ -12,10 +12,29 @@ class PenerimaController extends Controller
     /**
      * Menampilkan daftar semua penerima.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $penerimas = Penerima::latest()->paginate(10);
-        return view('admin.penerima.index', compact('penerimas'));
+        // 1. Ambil input dari user
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 10); // Default 10 data per halaman
+
+        // 2. Buat query dasar
+        $query = Penerima::query();
+
+        // 3. Terapkan filter pencarian jika ada
+        if ($search) {
+            $query->where('nama_lengkap', 'like', '%' . $search . '%')
+                  ->orWhere('kelas', 'like', '%' . $search . '%');
+        }
+
+        // 4. Ambil data dengan paginasi
+        $penerimas = $query->latest()->paginate($perPage);
+
+        // 5. Penting: Tambahkan query string ke link paginasi
+        $penerimas->appends($request->all());
+
+        // 6. Kembalikan view dengan data
+        return view('admin.penerima.index', compact('penerimas', 'search', 'perPage'));
     }
 
     /**
