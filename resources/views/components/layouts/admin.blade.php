@@ -9,13 +9,13 @@
             font-family: system-ui, sans-serif;
             background-color: #f4f7f6;
             margin: 0;
-            /* Mencegah scroll di level body */
+            /* 1. Mencegah seluruh halaman bisa di-scroll */
             overflow: hidden;
         }
 
         .admin-layout {
             display: flex;
-            /* Mengatur tinggi layout agar full screen */
+            /* 2. Mengatur tinggi layout agar selalu seukuran layar */
             height: 100vh;
         }
 
@@ -24,14 +24,16 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            /* Membuat hanya area ini yang bisa di-scroll */
-            overflow-y: auto;
+            /* 3. Penting: Mencegah container ini scroll, agar navbar tetap di atas */
+            overflow: hidden;
         }
 
         .content-wrapper {
             padding: 1.5rem;
             background-color: #f4f7f6;
-            flex-grow: 1; /* Memastikan konten mengisi sisa ruang */
+            flex-grow: 1; /* Memastikan area konten mengisi sisa ruang */
+            /* 4. Penting: Membuat HANYA area ini yang bisa di-scroll jika kontennya panjang */
+            overflow-y: auto;
         }
         
         /* Overlay for mobile sidebar */
@@ -53,12 +55,15 @@
 <body>
     <div class="admin-layout">
 
+        {{-- Sidebar akan tetap di kiri karena merupakan bagian dari flexbox .admin-layout --}}
         @include('layouts.partials.sidebar')
 
         <div class="main-content">
+            {{-- Navbar akan tetap di atas karena berada di luar area .content-wrapper yang bisa scroll --}}
             @include('layouts.partials.navbar')
 
             <main class="content-wrapper">
+                {{-- Hanya konten di dalam $slot ini yang akan scroll --}}
                 {{ $slot }}
             </main>
         </div>
