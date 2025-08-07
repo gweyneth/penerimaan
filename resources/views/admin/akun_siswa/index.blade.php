@@ -10,10 +10,11 @@
         .table thead { background-color: #f8f9fa; }
         .btn { display: inline-block; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; color: white; border: none; cursor: pointer; }
         .btn-success { background: #28a745; }
-        .btn-info { background: #17a2b8; } /* Warna untuk tombol lihat daftar */
+        .btn-info { background: #17a2b8; }
         .btn-disabled { background: #6c757d; cursor: not-allowed; opacity: 0.65; }
         .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
         .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .pagination-container { margin-top: 1.5rem; }
     </style>
 
     <div class="table-container">
@@ -22,7 +23,6 @@
                 <h2>Generate Akun untuk Siswa</h2>
                 <p style="margin: 0; color: #555;">Halaman ini digunakan untuk membuat akun login bagi para penerima.</p>
             </div>
-            {{-- TOMBOL BARU DITAMBAHKAN DI SINI --}}
             <a href="{{ route('admin.akun-siswa.daftar') }}" class="btn btn-info">Lihat Daftar Akun</a>
         </div>
 
@@ -76,7 +76,7 @@
             </tbody>
         </table>
 
-        <div style="margin-top: 1.5rem;">
+        <div class="pagination-container">
             {{ $penerimas->links() }}
         </div>
     </div>

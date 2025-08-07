@@ -18,9 +18,14 @@ class AkunSiswaController extends Controller
      */
     public function index()
     {
-        $penerimas = Penerima::with('user')->latest()->paginate(15);
+        // PERUBAHAN DI SINI: Gunakan simplePaginate
+        $penerimas = Penerima::with('user')->latest()->simplePaginate(15);
         return view('admin.akun_siswa.index', compact('penerimas'));
     }
+
+    /**
+     * Menampilkan daftar akun siswa yang sudah dibuat.
+     */
 
     /**
      * Membuat akun user baru untuk seorang penerima.
