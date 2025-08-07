@@ -45,30 +45,6 @@
         .pagination-container {
             margin-top: 1.5rem;
         }
-        /* Styling untuk paginasi default Laravel (jika menggunakan Bootstrap) */
-        .pagination {
-            display: flex;
-            list-style: none;
-            padding: 0;
-            gap: 5px;
-        }
-        .page-item .page-link {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #007bff;
-        }
-        .page-item.active .page-link {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-        .page-item.disabled .page-link {
-            color: #6c757d;
-            pointer-events: none;
-            background-color: #f8f9fa;
-        }
 
         /* Modal Styles */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
@@ -170,7 +146,6 @@
 
         <!-- PAGINATION BARU -->
         <div class="pagination-container">
-            {{-- Metode links() sudah menyertakan ringkasan hasil, jadi ringkasan manual dihapus untuk menghindari duplikasi --}}
             {{ $penerimas->links() }}
         </div>
     </div>
